@@ -1,0 +1,102 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Project font — single variable woff2 (all weights 50–1000), served locally
+   from /public/fonts so there is no network fetch on load. */
+@font-face {
+  font-family: 'Helvetica Now Var';
+  src: url('/fonts/HelveticaNowVar.woff2') format('woff2');
+  font-weight: 50 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --ui-bg: #F9FAFB;
+
+  --ui-text: #111827;
+  --ui-text-dimmed: #4B5563;
+
+  /* Brand */
+  --color-primary:       #E8202A;
+  --color-primary-hover: #C8181F;
+
+  /* Sidebar */
+  --color-sidebar-bg:        #FFFFFF;
+  --color-sidebar-text:      #374151;
+  --color-sidebar-icon:      #9CA3AF;
+  --color-sidebar-active-bg: #E8202A;
+  --color-sidebar-active-text:#FFFFFF;
+  --color-sidebar-divider:   #E5E7EB;
+
+  /* Page chrome */
+  --color-page-bg:  #F3F4F6;
+  --color-surface:  #FFFFFF;
+  --color-border:   #E5E7EB;
+
+  /* Topbar */
+  --color-topbar-bg:     #FFFFFF;
+  --color-topbar-border: #E5E7EB;
+  --color-topbar-text:   #111827;
+
+  /* KPI icons */
+  --color-kpi-delivery:   #22C55E;
+  --color-kpi-punctuality:#3B82F6;
+  --color-kpi-revenue:    #EF4444;
+  --color-kpi-drivers:    #F59E0B;
+
+  /* Trend badges */
+  --color-trend-positive: #16A34A;
+  --color-trend-stable:   #F59E0B;
+
+  /* Charts */
+  --color-chart-deliveries: #2563EB;
+  --color-chart-failures:   #EF4444;
+  --color-chart-sellers:    #22C55E;
+  --color-chart-buyers-bar: #8B5CF6;
+  --color-chart-orders:     #14B8A6;
+  --color-chart-grid:       #E5E7EB;
+
+  /* Satisfaction lines */
+  --color-sat-buyers:  #22C55E;
+  --color-sat-sellers: #EF4444;
+  --color-sat-drivers: #F59E0B;
+
+  /* Analytical table statuses */
+  --color-status-achieve:  #16A34A;
+  --color-status-warning:  #F59E0B;
+  --color-status-critical: #EF4444;
+
+  /* Alerts */
+  --color-alert-bg:     #FEF2F2;
+  --color-alert-border: #FECACA;
+  --color-alert-icon:   #EF4444;
+  --color-alert-title:  #111827;
+  --color-alert-sub:    #6B7280;
+
+  /* Pagination */
+  --color-page-active-bg:   #E8202A;
+  --color-page-active-text: #FFFFFF;
+  --color-page-idle-text:   #374151;
+
+  /* Typography */
+  --color-text-primary:   #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-muted:     #9CA3AF;
+}
+
+@theme {
+  --font-sans: 'Helvetica Now Var', system-ui, -apple-system, sans-serif;
+  --color-button-red: #EF2A39;
+}
+
+/* Prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+aside {
+  border-right: none !important;
+}
+
+[data-active] [data-slot="linkLeadingIcon"] {
+  color: white !important;
+}

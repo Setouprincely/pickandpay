@@ -1,0 +1,29 @@
+# This file is for running ONLY the database and adminer for local development with an IDE.
+
+services:
+  # The PostgreSQL Database Service
+  db:
+    image: postgres:18
+    container_name: doch-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql
+    ports:
+      - "${DB_PORT}:5432"
+    restart: unless-stopped
+
+  # (Optional but Recommended) A web GUI for the database
+  adminer:
+    image: adminer
+    container_name: doch-adminer
+    ports:
+      - "${ADMINER_PORT}:8080"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db-data:

@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: doch-app
+    image: loicpythagore/doch-app:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - minio
+    restart: always
+
+  minio:
+    image: minio/minio
+    container_name: doch-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    restart: always
+
+volumes:
+  minio-data:

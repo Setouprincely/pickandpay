@@ -1,0 +1,593 @@
+{
+  "run": "mvuyv4s7",
+  "startedAt": "2026-10-30T12:46:47.287Z",
+  "config": {
+    "baseUrl": "http://localhost:8090",
+    "adminEmail": "superadmin@doch.com",
+    "adminPassword": "***",
+    "dbContainer": "doch-postgres",
+    "dbName": "doch_fresh",
+    "dbUser": "postgres",
+    "productName": "Gari",
+    "productPrice": 1500,
+    "productWeight": "2kg",
+    "quantity": 3,
+    "customerAddress": "Bastos, Yaounde, Cameroon",
+    "sellerAddress": "Marche Mokolo, Yaounde, Cameroon",
+    "paySuccess": "670000000",
+    "payFail": "670000001"
+  },
+  "steps": [
+    {
+      "id": "A.1",
+      "title": "Administrator authenticates",
+      "result": "PASS",
+      "ms": 179,
+      "evidence": {
+        "adminUserId": "44dc8692-3912-43e4-a60f-5217bb0cde91"
+      }
+    },
+    {
+      "id": "A.2",
+      "title": "Customer account: create, verify, log in, access own profile",
+      "result": "PASS",
+      "ms": 1715,
+      "evidence": {
+        "email": "delivered+customer-mvuyv4s7@resend.dev",
+        "userId": "54b60bb7-a46c-4daa-bd02-d0246c41aa14",
+        "role": "ROLE_BUYER",
+        "profileEmail": "delivered+customer-mvuyv4s7@resend.dev"
+      }
+    },
+    {
+      "id": "A.3",
+      "title": "Second customer account (used for privacy checks)",
+      "result": "PASS",
+      "ms": 1552,
+      "evidence": {
+        "email": "delivered+customer2-mvuyv4s7@resend.dev",
+        "userId": "7a507058-b043-4a8c-b065-1e903248128a"
+      }
+    },
+    {
+      "id": "A.4",
+      "title": "Seller account: register with store details, verify, log in",
+      "result": "PASS",
+      "ms": 1424,
+      "evidence": {
+        "email": "delivered+seller-mvuyv4s7@resend.dev",
+        "userId": "d7fd8803-5f34-4b67-9435-b19d7f0a0ffc",
+        "sellerId": "2e0d9676-f283-4ede-97dd-426422f031e3"
+      }
+    },
+    {
+      "id": "A.5",
+      "title": "Administrator reviews and approves the seller",
+      "result": "PASS",
+      "ms": 82,
+      "evidence": {
+        "sellerId": "2e0d9676-f283-4ede-97dd-426422f031e3",
+        "verifiedAt": "2026-10-30T20:46:52.2215713"
+      }
+    },
+    {
+      "id": "A.6",
+      "title": "Driver account: onboarded by admin, activated via invitation code",
+      "result": "PASS",
+      "ms": 1476,
+      "evidence": {
+        "email": "delivered+driver-mvuyv4s7@resend.dev",
+        "userId": "87e50ce9-556d-495b-8966-4b22fa4fdacb"
+      }
+    },
+    {
+      "id": "A.7",
+      "title": "Role-based permissions are enforced by the backend",
+      "result": "PASS",
+      "ms": 175,
+      "evidence": {
+        "sellerOrdersAll": 403,
+        "sellerAdminUsers": 403,
+        "sellerSettings": 403,
+        "driverOrdersAll": 403,
+        "driverRevenue": 403,
+        "driverPayouts": 403,
+        "driverAudit": 403,
+        "customerAdminUsers": 403,
+        "customerCategory": 403,
+        "customerAssign": 403,
+        "anonymousOrders": 401
+      }
+    },
+    {
+      "id": "A.8",
+      "title": "Account information is consistent after logout and login",
+      "result": "PASS",
+      "ms": 150,
+      "evidence": {
+        "userId": "54b60bb7-a46c-4daa-bd02-d0246c41aa14",
+        "email": "delivered+customer-mvuyv4s7@resend.dev",
+        "revokedTokenRejected": true
+      }
+    },
+    {
+      "id": "B.1",
+      "title": "Seller creates \"Gari\" with photo; listing awaits moderation",
+      "result": "PASS",
+      "ms": 2401,
+      "evidence": {
+        "productId": "edda9421-8a59-424f-a86b-378c952ed767",
+        "publicationStatus": "PENDING_REVIEW",
+        "weightKg": 2,
+        "imageStored": true
+      }
+    },
+    {
+      "id": "B.2",
+      "title": "Unapproved product is invisible to customers",
+      "result": "PASS",
+      "ms": 48,
+      "evidence": {
+        "inCatalogue": false,
+        "productPage": 404,
+        "purchasable": false
+      }
+    },
+    {
+      "id": "B.3",
+      "title": "Administrator approves the listing",
+      "result": "PASS",
+      "ms": 54,
+      "evidence": {
+        "publicationStatus": "PUBLISHED"
+      }
+    },
+    {
+      "id": "B.4",
+      "title": "Customer finds the product; product page shows accurate data",
+      "result": "PASS",
+      "ms": 48,
+      "evidence": {
+        "price": 1500,
+        "seller": "E2E Gari Store mvuyv4s7",
+        "category": "Food",
+        "stock": 50
+      }
+    },
+    {
+      "id": "B.5",
+      "title": "Editing and deactivating the listing updates the customer interface",
+      "result": "PASS",
+      "ms": 152,
+      "evidence": {
+        "deactivatedHidden": true,
+        "editReflected": true,
+        "otherUserEditBlocked": 403
+      }
+    },
+    {
+      "id": "C.1",
+      "title": "Customer previews and places an order (qty 3) and pays in the Fapshi sandbox",
+      "result": "PASS",
+      "ms": 16961,
+      "evidence": {
+        "orderId": "ce6ccee4-a210-4b53-bd3b-1008433c5795",
+        "reference": "DO-9C2VEUT8",
+        "paymentId": "d21751bb-79c5-4da3-a050-da9c3a8465b3",
+        "paymentReference": "VkmADjeuU6",
+        "totalAmount": 5000,
+        "productTotal": 4500,
+        "deliveryFee": 500,
+        "paymentStatus": "COMPLETED"
+      }
+    },
+    {
+      "id": "C.2",
+      "title": "Order record is correct and linked to customer, seller, product, payment and package",
+      "result": "PASS",
+      "ms": 53,
+      "evidence": {
+        "status": "PROCESSING",
+        "paidAt": "2026-10-30T20:47:13.648163",
+        "trackingNumber": "DCH-PWHQ9F33S4",
+        "packageStatus": "PENDING_PREPARATION",
+        "requiredVehicle": "K_TRUCK",
+        "packageWeightKg": 6,
+        "stockAfter": 47
+      }
+    },
+    {
+      "id": "C.3",
+      "title": "Failed payment is not marked successful; order offers retry",
+      "result": "PASS",
+      "ms": 15812,
+      "evidence": {
+        "reference": "DO-N7GZVED4",
+        "paymentStatus": "FAILED",
+        "providerStatus": "FAILED",
+        "orderStatus": "PAYMENT_FAILED"
+      }
+    },
+    {
+      "id": "C.4",
+      "title": "Forged \"SUCCESSFUL\" webhook cannot mark a failed payment as paid",
+      "result": "PASS",
+      "ms": 87,
+      "evidence": {
+        "paymentStatus": "FAILED",
+        "orderStatus": "PAYMENT_FAILED"
+      }
+    },
+    {
+      "id": "C.5",
+      "title": "Customer retries the failed order payment successfully",
+      "result": "PASS",
+      "ms": 14849,
+      "evidence": {
+        "orderId": "75fefdba-2913-4dc3-9519-ac114fbca9f4",
+        "reference": "DO-N7GZVED4",
+        "paymentId": "81046208-2496-4717-b3eb-e4e914e8d2bb",
+        "trackingNumber": "DCH-EBZ5UX2WTX"
+      }
+    },
+    {
+      "id": "C.6",
+      "title": "Duplicate provider callbacks do not duplicate charges or fulfilment",
+      "result": "PASS",
+      "ms": 3253,
+      "evidence": {
+        "paymentSplits": 3,
+        "packages": 1,
+        "sellerPendingCredits": 1
+      }
+    },
+    {
+      "id": "C.7",
+      "title": "Abandoned unpaid order can be cancelled; reserved stock is released",
+      "result": "PASS",
+      "ms": 15135,
+      "evidence": {
+        "reference": "DO-SM2VJASN",
+        "stockBefore": 46,
+        "reserved": 44,
+        "stockAfter": 46
+      }
+    },
+    {
+      "id": "D.1",
+      "title": "Order is discoverable by ID, reference and tracking number in admin management",
+      "result": "PASS",
+      "ms": 405,
+      "evidence": {
+        "searchByReference": 1,
+        "searchByTracking": 1,
+        "searchById": 1,
+        "totalOrders": 6
+      }
+    },
+    {
+      "id": "D.2",
+      "title": "Seller sees the paid order (own items only, no payment data)",
+      "result": "PASS",
+      "ms": 76,
+      "evidence": {
+        "reference": "DO-9C2VEUT8",
+        "packageStatus": "PENDING_PREPARATION",
+        "items": 1
+      }
+    },
+    {
+      "id": "D.3",
+      "title": "Logistics dispatch queue shows the package at the correct stage",
+      "result": "PASS",
+      "ms": 34,
+      "evidence": {
+        "trackingNumber": "DCH-PWHQ9F33S4",
+        "status": "PENDING_PREPARATION",
+        "orderReference": "DO-9C2VEUT8"
+      }
+    },
+    {
+      "id": "D.4",
+      "title": "Unauthorized users cannot view the order",
+      "result": "PASS",
+      "ms": 64,
+      "evidence": {
+        "otherCustomer": 403,
+        "driver": 403,
+        "anonymous": 401
+      }
+    },
+    {
+      "id": "E.1",
+      "title": "Seller seals the package (photo) -> ready for dispatch",
+      "result": "PASS",
+      "ms": 2135,
+      "evidence": {
+        "status": "PENDING_ASSIGNMENT"
+      }
+    },
+    {
+      "id": "E.2",
+      "title": "Fleet: bicycle and Suzuki Carry registered; driver online",
+      "result": "PASS",
+      "ms": 98,
+      "evidence": {
+        "bicycle": "bc4eb00a-b12d-4a3c-a8a0-df9113caae03",
+        "kTruck": "c0969bef-d0d5-4e9b-ab14-aaf044124f40"
+      }
+    },
+    {
+      "id": "E.3",
+      "title": "Vehicle decision matrix enforced; driver + vehicle assigned",
+      "result": "PASS",
+      "ms": 175,
+      "evidence": {
+        "packageWeightKg": 6,
+        "requiredVehicle": "K_TRUCK",
+        "bicycleRejected": 400,
+        "assignedVehicle": "Carry mvuyv4s7",
+        "driver": "E2E Driver"
+      }
+    },
+    {
+      "id": "E.4",
+      "title": "Driver app receives the job with stops, vehicle and route",
+      "result": "PASS",
+      "ms": 103,
+      "evidence": {
+        "jobs": 1,
+        "stops": [
+          "1:PICKUP:DCH-PWHQ9F33S4",
+          "2:DROP_OFF:DCH-PWHQ9F33S4"
+        ],
+        "driverVehicle": "Carry mvuyv4s7"
+      }
+    },
+    {
+      "id": "E.5",
+      "title": "Assignment visible consistently to dispatcher, admin, customer and seller",
+      "result": "PASS",
+      "ms": 133,
+      "evidence": {
+        "admin": "Carry mvuyv4s7",
+        "customer": "E2E Driver",
+        "seller": "DRIVER_ASSIGNED"
+      }
+    },
+    {
+      "id": "F.1",
+      "title": "Pickup requires the correct scan; status follows the permitted sequence",
+      "result": "PASS",
+      "ms": 225,
+      "evidence": {
+        "completeBeforePickup": 400,
+        "wrongScan": 400,
+        "nonDriver": 403,
+        "status": "PICKED_UP",
+        "orderStatus": "SHIPPED"
+      }
+    },
+    {
+      "id": "F.2",
+      "title": "Hub processing (scan, inspect, sort) and onward trip assignment",
+      "result": "PASS",
+      "ms": 174,
+      "evidence": {
+        "hub": "Yaounde Central Hub",
+        "onwardStatus": "DRIVER_ASSIGNED",
+        "afterHubPickup": "PICKED_UP"
+      }
+    },
+    {
+      "id": "F.3",
+      "title": "Out for delivery; invalid OTP cannot confirm delivery",
+      "result": "PASS",
+      "ms": 106,
+      "evidence": {
+        "status": "IN_TRANSIT",
+        "invalidOtp": 400,
+        "failedAttempts": 1
+      }
+    },
+    {
+      "id": "F.4",
+      "title": "Recipient gives OTP; driver records delivery with proof photo",
+      "result": "PASS",
+      "ms": 1206,
+      "evidence": {
+        "status": "DELIVERED",
+        "deliveredAt": "2026-10-30T20:48:07.723441",
+        "driver": "E2E Driver",
+        "proofStored": true
+      }
+    },
+    {
+      "id": "F.5",
+      "title": "Complete package journey recorded without gaps, duplicates or contradictions",
+      "result": "PASS",
+      "ms": 59,
+      "evidence": {
+        "sequence": "PENDING_PAYMENT > PENDING_PREPARATION > PENDING_ASSIGNMENT > DRIVER_ASSIGNED > PICKED_UP > AT_HUB > DRIVER_ASSIGNED > PICKED_UP > IN_TRANSIT > DELIVERED",
+        "events": 11,
+        "publicTrackingStatus": "DELIVERED"
+      }
+    },
+    {
+      "id": "F.6",
+      "title": "Customer, seller, admin and logistics all see the final status",
+      "result": "PASS",
+      "ms": 235,
+      "evidence": {
+        "customer": "DELIVERED",
+        "seller": "DELIVERED",
+        "admin": "DELIVERED",
+        "logistics": "DELIVERED",
+        "sellerWallet": {
+          "available": 4050,
+          "pending": 1350
+        }
+      }
+    },
+    {
+      "id": "G.1",
+      "title": "Customer notifications reference the order and tracking ID",
+      "result": "PASS",
+      "ms": 72,
+      "evidence": {
+        "notifications": 15,
+        "emails": "sent after commit via Resend (see server log \"EMAIL:\")"
+      }
+    },
+    {
+      "id": "G.2",
+      "title": "Customer rates the delivered order; review linked to order and customer",
+      "result": "PASS",
+      "ms": 1295,
+      "evidence": {
+        "rating": 5,
+        "deliveryRating": 4,
+        "duplicateReview": 400,
+        "otherCustomer": 403,
+        "beforeDelivery": 400,
+        "driverRating": 4
+      }
+    },
+    {
+      "id": "G.3",
+      "title": "Order appears in history and reporting",
+      "result": "PASS",
+      "ms": 184,
+      "evidence": {
+        "historyOrders": 3,
+        "deliveredOrders": 2,
+        "dashboard": {
+          "currentMonthRevenue": 10000,
+          "deliveryRevenue": 1000,
+          "productRevenue": 9000,
+          "totalOrders": 2,
+          "totalRevenue": 10000
+        }
+      }
+    },
+    {
+      "id": "H.1",
+      "title": "Package not collected -> back to dispatch; driver unavailable -> unassign & reassign",
+      "result": "PASS",
+      "ms": 1287,
+      "evidence": {
+        "requiredVehicle": "BICYCLE",
+        "notCollected": "PENDING_ASSIGNMENT",
+        "unassigned": "PENDING_ASSIGNMENT",
+        "reassigned": "DRIVER_ASSIGNED"
+      }
+    },
+    {
+      "id": "H.2",
+      "title": "Recipient unavailable -> failed attempt -> rescheduled re-attempt",
+      "result": "PASS",
+      "ms": 272,
+      "evidence": {
+        "failed": "FAILED",
+        "reason": "Recipient unavailable - No answer at gate",
+        "reattempt": "IN_TRANSIT"
+      }
+    },
+    {
+      "id": "H.3",
+      "title": "Incorrect OTP lockout and supervised reset",
+      "result": "PASS",
+      "ms": 803,
+      "evidence": {
+        "lockedAfter": 5,
+        "correctOtpWhileLocked": 400,
+        "resetBy": "dispatcher",
+        "newCodeIssued": true
+      }
+    },
+    {
+      "id": "H.4",
+      "title": "Damaged package -> hub -> returned to sender; stock and seller earnings restored; refund flagged",
+      "result": "PASS",
+      "ms": 461,
+      "evidence": {
+        "status": "RETURNED",
+        "orderStatus": "RETURNED",
+        "stockBefore": 46,
+        "stockAfter": 47,
+        "pendingBefore": 1350,
+        "pendingAfter": 0,
+        "changeAfterReturn": 403
+      }
+    },
+    {
+      "id": "H.5",
+      "title": "Audit trail and persistence after refresh / re-login",
+      "result": "PASS",
+      "ms": 418,
+      "evidence": {
+        "orderAuditEntries": 6,
+        "paymentAudit": [
+          "PAYMENT_COMPLETED",
+          "PAYMENT_INITIATED"
+        ]
+      }
+    }
+  ],
+  "records": {
+    "customer": {
+      "email": "delivered+customer-mvuyv4s7@resend.dev",
+      "userId": "54b60bb7-a46c-4daa-bd02-d0246c41aa14"
+    },
+    "seller": {
+      "email": "delivered+seller-mvuyv4s7@resend.dev",
+      "userId": "d7fd8803-5f34-4b67-9435-b19d7f0a0ffc",
+      "sellerId": "2e0d9676-f283-4ede-97dd-426422f031e3"
+    },
+    "driver": {
+      "email": "delivered+driver-mvuyv4s7@resend.dev",
+      "userId": "87e50ce9-556d-495b-8966-4b22fa4fdacb"
+    },
+    "product": {
+      "productId": "edda9421-8a59-424f-a86b-378c952ed767",
+      "name": "Gari",
+      "price": 1500,
+      "weightKg": 2
+    },
+    "order": {
+      "orderId": "ce6ccee4-a210-4b53-bd3b-1008433c5795",
+      "reference": "DO-9C2VEUT8",
+      "paymentId": "d21751bb-79c5-4da3-a050-da9c3a8465b3",
+      "paymentReference": "VkmADjeuU6",
+      "totalAmount": 5000,
+      "trackingNumber": "DCH-PWHQ9F33S4",
+      "deliveryId": "4f6e4496-69f7-49d5-9fc9-c2291e5753f7",
+      "deliveredAt": "2026-10-30T20:48:07.723441"
+    },
+    "failedPayment": {
+      "orderId": "75fefdba-2913-4dc3-9519-ac114fbca9f4",
+      "reference": "DO-N7GZVED4",
+      "paymentId": "7bf4c74d-db02-4e66-8782-68a3d30bd253"
+    },
+    "retriedOrder": {
+      "orderId": "75fefdba-2913-4dc3-9519-ac114fbca9f4",
+      "reference": "DO-N7GZVED4",
+      "paymentId": "81046208-2496-4717-b3eb-e4e914e8d2bb",
+      "trackingNumber": "DCH-EBZ5UX2WTX"
+    },
+    "cancelledOrder": {
+      "orderId": "65d26caa-164b-4c1b-b2e8-d466a24cc6b8",
+      "reference": "DO-SM2VJASN"
+    },
+    "vehicles": {
+      "bicycle": "bc4eb00a-b12d-4a3c-a8a0-df9113caae03",
+      "kTruck": "c0969bef-d0d5-4e9b-ab14-aaf044124f40"
+    }
+  },
+  "finishedAt": "2026-10-30T12:48:12.916Z",
+  "summary": {
+    "total": 43,
+    "passed": 43,
+    "failed": 0
+  }
+}

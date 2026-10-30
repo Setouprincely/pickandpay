@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New DOCH access</title>
+    <meta charset="UTF-8">
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4;">
+<div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; padding: 30px; border: 1px solid #dddddd;">
+    <h2 style="color: #102231; margin-top: 0;">Hello <span th:text="${name}">there</span>,</h2>
+
+    <p>Your existing DOCH account now also has
+        <span style="color: #2015ff; font-weight: bold;" th:text="${role}">Driver</span> access.</p>
+
+    <p>There is nothing to set up: sign in with the <strong>same email and password</strong> you already use on DOCH.</p>
+
+    <div style="text-align: center; margin: 35px 0;">
+        <a th:href="${loginLink}"
+           style="background-color: #2015ff; color: #ffffff; text-decoration: none; padding: 14px 30px; font-size: 16px; border-radius: 5px; font-weight: bold; display: inline-block;">
+            Sign in
+        </a>
+    </div>
+
+    <p style="font-size: 13px; color: #888888;">Forgot your password? Use <em>Forgot password</em> on the sign-in page.</p>
+
+    <hr style="margin: 40px 0; border: none; border-top: 1px solid #eeeeee;">
+    <p style="font-size: 12px; color: #aaaaaa; line-height: 1.5;">
+        If you were not expecting this change, contact DOCH support.
+    </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+spring:
+  application:
+    name: DOCH
+  jpa:
+    # The schema is owned by Flyway (src/main/resources/db/migration). Hibernate only validates it.
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    # Databases created before Flyway was introduced (by Hibernate ddl-auto) are
+    # baselined at V1 so that only the incremental migrations are applied to them.
+    baseline-on-migrate: true
+    baseline-version: 1
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  tomcat:
+    # Tomcat 11 defaults to 10 multipart parts per request; product and delivery forms send
+    # each text field as its own part next to the photos, so allow more (size limits above still apply).
+    max-part-count: 50
+
+application:
+  cors:
+    # Comma-separated frontend origins. Override with CORS_ALLOWED_ORIGINS in deployment.
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173,http://localhost:5174}
+  # Swagger/OpenAPI server URL. Set SWAGGER_SERVER_URL to the public address of the
+  # deployed server (e.g. http://<host>:8080) so the Swagger "Execute" button works.
+  swagger:
+    server-url: ${SWAGGER_SERVER_URL:http://localhost:8080}
+  auth:
+    # DEV/STAGING ONLY: auto-enable newly registered accounts (skips email verification).
+    # MUST be false in production.
+    auto-verify-accounts: ${AUTH_AUTO_VERIFY:false}
+    # How long a staff/driver invitation code stays valid (sign-up and password-reset codes stay at 15 minutes).
+    staff-invite-expiry-hours: ${STAFF_INVITE_EXPIRY_HOURS:72}
+  bootstrap:
+    # The platform super admin is created on first start only, with this password.
+    super-admin-email: ${BOOTSTRAP_SUPER_ADMIN_EMAIL:superadmin@doch.com}
+    super-admin-password: ${BOOTSTRAP_SUPER_ADMIN_PASSWORD:}
+  rate-limit:
+    # Max requests per client IP per minute on public authentication endpoints
+    # (login, registration, OTP verification, password reset).
+    auth-requests-per-minute: ${AUTH_RATE_LIMIT_PER_MINUTE:20}
+  orders:
+    # Unpaid (PENDING / PAYMENT_FAILED) orders older than this are cancelled automatically
+    # and their reserved stock is released.
+    unpaid-cancel-after-hours: ${ORDER_UNPAID_CANCEL_HOURS:48}
+  payments:
+    # How often PENDING payments are reconciled against the payment provider.
+    reconcile-interval-ms: ${PAYMENT_RECONCILE_INTERVAL_MS:120000}
+    # Pending payments whose provider status is still not final after this many hours are marked FAILED (expired).
+    expire-after-hours: ${PAYMENT_EXPIRE_HOURS:24}
+  delivery:
+    # Wrong OTP entries allowed before a delivery is locked and must be unlocked by dispatch.
+    max-otp-attempts: ${DELIVERY_MAX_OTP_ATTEMPTS:5}
+  uploads:
+    max-image-bytes: 5242880
+  email:
+    from-name: "DOCH"
+    from: "noreply@contact.dochlogistics.com" # the domain verified with Resend
+  frontend:
+    # DochMarket (E-commerce) URLs
+    market-base-url: ${APP_MARKET_FRONTEND_URL:http://localhost:5173}
+    market-payment-redirect-url: ${APP_MARKET_PAYMENT_REDIRECT_URL:http://localhost:5173/payment-status}
+    # DochXender (Logistics) URLs
+    xender-base-url: ${APP_XENDER_FRONTEND_URL:http://localhost:5174}
+    xender-payment-redirect-url: ${APP_XENDER_PAYMENT_REDIRECT_URL:http://localhost:5174/payment-status}
+    # Staff portals: invitation links point here (drivers -> driver app, admins -> admin app)
+    driver-base-url: ${APP_DRIVER_FRONTEND_URL:http://localhost:3001}
+    admin-base-url: ${APP_ADMIN_FRONTEND_URL:http://localhost:3000}
+  security:
+    jwt:
+      # CRITICAL: No default value. The environment MUST provide this.
+      # The app will fail to start if this is not set, which is a good security practice.
+      secret-key: ${JWT_SECRET_KEY}
+      access-token-expiration: 86400000    # 24 hours
+      refresh-token-expiration: 604800000 # 7 days
+  # Delivery pricing
+  pricing:
+    base-fee: 800.0        # Minimum fee just for starting a delivery
+    price-per-km: 250.0    # Price added for every kilometer
+    min-total-price: 1000.0 # The absolute minimum a user can pay
+  # Commissions from sales
+  commission:
+    marketplace-percent: 10.0  # Platform takes 10% of every sale
+  geo:
+    provider: ${GEO_PROVIDER:google}
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operationsSorter: method
+
+fapshi:
+  api-user: ${FAPSHI_API_USER}
+  api-key: ${FAPSHI_API_KEY}
+  base-url: ${FAPSHI_BASE_URL}
+  # Webhook secret configured on the Fapshi dashboard (new dashboard feature).
+  # Fapshi sends it in the x-wh-secret header of every webhook call; when set
+  # here, the webhook endpoint rejects calls that don't carry the matching
+  # value. Leave empty in local dev (webhooks can't reach localhost anyway).
+  webhook-secret: ${FAPSHI_WEBHOOK_SECRET:}
+
+minio:
+  # endpoint : http://localhost:9000
+  # access-key: minioadmin
+  # secret-key : minioadmin
+  # bucket-name : doch
+  #  endpoint: http://${MINIO_HOST}:${MINIO_PORT}
+  endpoint: ${MINIO_ENDPOINT}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
+  bucket-name: ${MINIO_BUCKET_NAME}
+
+resend:
+  api-key: ${RESEND_API_KEY}
+
+google:
+  maps:
+    api-key: ${GOOGLE_MAPS_API_KEY}
+    geocoding-url: https://maps.googleapis.com/maps/api/geocode/json

@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    show-sql: false                # Disable SQL logging for cleaner, faster production logs
+    hibernate:
+      ddl-auto: validate           # Schema is created/updated only by Flyway migrations
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  mail:
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    port: ${MAIL_PORT}

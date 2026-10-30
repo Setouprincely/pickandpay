@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    show-sql: false                # Set to true locally when debugging SQL
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  mail:
+    host: smtp.gmail.com
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    port: 587
+    properties:
+      mail.smtp:
+        auth: true
+        starttls:
+          enable: true
+
+# --- DEV CONVENIENCE FLAGS ---
+# AUTH_AUTO_VERIFY skips email verification when no email provider is available. Never enable it in production.
+application:
+  auth:
+    auto-verify-accounts: ${AUTH_AUTO_VERIFY:false}
